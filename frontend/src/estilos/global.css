@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+@import '@fontsource/marcellus/400.css';
+@import '@fontsource/jost/300.css';
+@import '@fontsource/jost/400.css';
+@import '@fontsource/jost/500.css';
+
+@theme {
+  --font-display: 'Marcellus', serif;
+  --font-accent: 'Marcellus', serif;
+  --font-sans: 'Jost', ui-sans-serif, sans-serif;
+
+  /* Paleta cálida piedra/crema, estilo griego (estudio con arcos y estuco). */
+  --color-marble-50: #f5f3ee;
+  --color-marble-100: #ffffff;
+  --color-marble-200: #e9e5dc;
+  --color-marble-300: #ddd7c9;
+  --color-marble-400: #9b9587;
+  --color-marble-500: #6b6558;
+  --color-marble-700: #4a463c;
+  --color-marble-900: #2e2b22;
+  --color-ink: #16150f;
+  --color-gold-accent: #9b9587;
+
+  --tracking-greek: 0.22em;
+
+  --spacing-section: 7rem;
+}
+
+@layer utilities {
+  .bg-marble {
+    background-color: #f5f3ee;
+    background-image:
+      radial-gradient(1200px 600px at 70% -10%, #ffffff 0%, rgb(255 255 255 / 0%) 60%),
+      radial-gradient(900px 500px at 10% 110%, #e9e5dc 0%, rgb(233 229 220 / 0%) 55%);
+  }
+
+  /* Textura de grano sutil, como la piedra/estuco de una pared griega. */
+  .bg-grano {
+    background-image:
+      radial-gradient(3px 3px at 20% 30%, rgb(22 21 15 / 5%) 0%, transparent 100%),
+      radial-gradient(2px 2px at 70% 60%, rgb(22 21 15 / 5%) 0%, transparent 100%),
+      radial-gradient(2px 2px at 40% 80%, rgb(22 21 15 / 5%) 0%, transparent 100%);
+    background-size: 340px 340px;
+  }
+
+  /* Greca (meandro griego), usada como separador decorativo entre secciones. */
+  .greca {
+    height: 14px;
+    background-repeat: repeat-x;
+    background-position: center;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'><path d='M2 12 V2 H12 V8 H8 V6 H10 V4 H4 V12 H16 V2 H26 V12' fill='none' stroke='%2316150F' stroke-width='1.2' opacity='0.35'/></svg>");
+  }
+
+  .greca-clara {
+    height: 10px;
+    background-repeat: repeat-x;
+    background-position: center;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'><path d='M2 12 V2 H12 V8 H8 V6 H10 V4 H4 V12 H16 V2 H26 V12' fill='none' stroke='%23F5F3EE' stroke-width='1.2' opacity='0.25'/></svg>");
+  }
+
+  /* Recorte en forma de arco/columna: redondo arriba, recto abajo. */
+  .arco {
+    border-radius: 200px 200px 0 0;
+  }
+
+  .arco-sm {
+    border-radius: 100px 100px 0 0;
+  }
+
+  .arco-lg {
+    border-radius: 240px 240px 0 0;
+  }
+
+  /* Scrollbar fina y clara, para listas de horas sobre fondo oscuro. */
+  .scrollbar-fina {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(245 243 238 / 30%) transparent;
+  }
+
+  .scrollbar-fina::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scrollbar-fina::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-fina::-webkit-scrollbar-thumb {
+    background-color: rgb(245 243 238 / 30%);
+    border-radius: 999px;
+  }
+
+  .scrollbar-fina::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(245 243 238 / 55%);
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-marble-50 font-sans text-ink antialiased;
+  }
+}

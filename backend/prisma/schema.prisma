@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("URL_BASE_DATOS") // pooled (pgbouncer), usada por la app en runtime
+  directUrl = env("URL_DIRECTA") // conexión directa, usada solo por prisma migrate/db push
+}
+
+enum Rol {
+  PROPIETARIO
+  PROFESIONAL
+}
+
+enum EstadoReserva {
+  CONFIRMADA
+  CANCELADA
+  COMPLETADA
+  NO_ASISTIO
+}
+
+enum CategoriaServicio {
+  BARBERIA
+  ESTETICA
+}
+
+model Usuario {
+  id                String           @id @default(uuid())
+  correo            String           @unique
+  hashContrasena    String
+  rol               Rol
+  nombreCompleto    String
+  telefono          String?
+  urlFoto           String?
+  biografia         String?
+  activo            Boolean          @default(true)
+  tokensRefresco    TokenRefresco[]
+  horariosLaborales HorarioLaboral[]
+  reservas          Reserva[]        @relation("ReservasProfesional")
+  creadoEn          DateTime         @default(now())
+  actualizadoEn     DateTime         @updatedAt
+}
+
+model TokenRefresco {
+  id        String   @id @default(uuid())
+  hashToken String   @unique
+  usuarioId String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  expiraEn  DateTime
+  revocado  Boolean  @default(false)
+  creadoEn  DateTime @default(now())
+}
+
+model Servicio {
+  id              String            @id @default(uuid())
+  nombre          String            @unique
+  descripcion     String?
+  precioCentavos  Int
+  duracionMinutos Int
+  categoria       CategoriaServicio @default(BARBERIA)
+  activo          Boolean           @default(true)
+  reservas        Reserva[]
+  creadoEn        DateTime          @default(now())
+  actualizadoEn   DateTime          @updatedAt
+}
+
+model Cliente {
+  id             String    @id @default(uuid())
+  nombreCompleto String
+  telefono       String
+  correo         String?
+  reservas       Reserva[]
+  creadoEn       DateTime  @default(now())
+
+  @@index([telefono])
+}
+
+model Reserva {
+  id            String        @id @default(uuid())
+  profesionalId String
+  profesional   Usuario       @relation("ReservasProfesional", fields: [profesionalId], references: [id])
+  servicioId    String
+  servicio      Servicio      @relation(fields: [servicioId], references: [id])
+  clienteId     String
+  cliente       Cliente       @relation(fields: [clienteId], references: [id])
+  horaInicio    DateTime
+  horaFin       DateTime
+  estado        EstadoReserva @default(CONFIRMADA)
+  notas         String?
+  creadoEn      DateTime      @default(now())
+  actualizadoEn DateTime      @updatedAt
+
+  @@index([profesionalId, horaInicio])
+  @@index([profesionalId, estado, horaInicio])
+}
+
+model HorarioLaboral {
+  id             String  @id @default(uuid())
+  profesionalId  String
+  profesional    Usuario @relation(fields: [profesionalId], references: [id], onDelete: Cascade)
+  diaSemana      Int
+  horaInicio     String
+  horaFin        String
+  inicioDescanso String?
+  finDescanso    String?
+  activo         Boolean @default(true)
+
+  @@unique([profesionalId, diaSemana])
+}

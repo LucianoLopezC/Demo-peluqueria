@@ -1,0 +1,19 @@
+{
+  "name": "sistema-de-reservas-peluqueria",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "formato": "prettier --write .",
+    "formato:verificar": "prettier --check .",
+    "iniciar:backend": "npm run iniciar --workspace=backend",
+    "iniciar:frontend": "npm run iniciar --workspace=frontend",
+    "prueba:backend": "npm test --workspace=backend"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}

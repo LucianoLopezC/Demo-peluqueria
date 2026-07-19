@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: peluqueria_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      URL_BASE_DATOS: postgresql://postgres:postgres@localhost:5432/peluqueria_ci
+      URL_DIRECTA: postgresql://postgres:postgres@localhost:5432/peluqueria_ci
+      SECRETO_TOKEN_ACCESO: ci-access-secret
+      SECRETO_TOKEN_REFRESCO: ci-refresh-secret
+      ORIGEN_CORS: http://localhost:5173
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar formato
+        run: npm run formato:verificar
+
+      - name: Revisar backend (lint)
+        run: npm run revisar --workspace=backend
+
+      - name: Aplicar el schema de Prisma a la base de datos de CI
+        run: npx prisma db push --schema=prisma/schema.prisma
+        working-directory: backend
+
+      - name: Correr tests del backend
+        run: npm test --workspace=backend
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Revisar frontend (lint)
+        run: npm run revisar --workspace=frontend
+
+      - name: Build del frontend
+        run: npm run build --workspace=frontend

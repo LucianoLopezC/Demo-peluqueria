@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "src/servidor.js",
+  "scripts": {
+    "iniciar": "nodemon src/servidor.js",
+    "start": "node src/servidor.js",
+    "test": "jest --runInBand",
+    "prisma:generar": "prisma generate",
+    "prisma:migrar": "prisma migrate dev",
+    "prisma:semilla": "node prisma/semilla.js",
+    "revisar": "eslint ."
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@upstash/redis": "^1.38.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^8.6.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^7.5.0",
+    "sanitize-html": "^2.17.6",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.20.0",
+    "supertest": "^7.0.0"
+  }
+}
