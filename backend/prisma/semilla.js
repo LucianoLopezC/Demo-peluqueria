@@ -100,16 +100,19 @@ async function main() {
       correo: 'profesional@peluqueria1.com',
       nombreCompleto: 'Profesional Demo',
       biografia: 'Estilista especializado en color y estilismo.',
+      urlFoto: '/equipo/profesional-demo.jpg',
     },
     {
       correo: 'camila@peluqueria1.com',
       nombreCompleto: 'Camila Rojas',
       biografia: 'Especialista en corte y coloración.',
+      urlFoto: null,
     },
     {
       correo: 'diego@peluqueria1.com',
       nombreCompleto: 'Diego Fernández',
       biografia: 'Barbero y estilista, degradados y diseño.',
+      urlFoto: '/equipo/diego-fernandez.jpg',
     },
   ];
 
@@ -117,13 +120,14 @@ async function main() {
   for (const datos of PROFESIONALES) {
     const profesional = await prisma.usuario.upsert({
       where: { correo: datos.correo },
-      update: {},
+      update: { urlFoto: datos.urlFoto },
       create: {
         correo: datos.correo,
         hashContrasena,
         rol: 'PROFESIONAL',
         nombreCompleto: datos.nombreCompleto,
         biografia: datos.biografia,
+        urlFoto: datos.urlFoto,
       },
     });
     profesionales.push(profesional);

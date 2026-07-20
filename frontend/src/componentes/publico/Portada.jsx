@@ -1,4 +1,5 @@
 import Boton from '../comunes/Boton';
+import fotoFachada from '../../assets/estudio-fachada.jpg';
 
 function Portada() {
   const desplazarAReserva = () => {
@@ -41,10 +42,12 @@ function Portada() {
         </div>
 
         <div className="relative">
-          <div className="arco-lg bg-marble-200 relative flex h-[420px] items-center justify-center overflow-hidden border border-ink/10 md:h-[560px]">
-            <span className="font-display text-sm tracking-[0.3em] text-marble-500 uppercase">
-              Foto del estudio
-            </span>
+          <div className="arco-lg relative h-[420px] overflow-hidden border border-ink/10 md:h-[560px]">
+            <img
+              src={fotoFachada}
+              alt="Fachada del estudio"
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="bg-marble-50 absolute -bottom-px left-1/2 -translate-x-1/2 px-7 pt-3 font-display text-xs tracking-[0.4em] text-marble-700">
             EST · MMXXVI

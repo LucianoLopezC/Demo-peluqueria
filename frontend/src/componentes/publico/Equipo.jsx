@@ -28,9 +28,17 @@ function Equipo() {
         {profesionales.map((profesional) => (
           <div key={profesional.id} className="text-center">
             <div className="arco-sm bg-marble-200 mx-auto flex h-60 w-48 items-center justify-center overflow-hidden border border-ink/10">
-              <span className="font-display text-3xl text-marble-500">
-                {profesional.nombreCompleto.charAt(0)}
-              </span>
+              {profesional.urlFoto ? (
+                <img
+                  src={profesional.urlFoto}
+                  alt={profesional.nombreCompleto}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <span className="font-display text-3xl text-marble-500">
+                  {profesional.nombreCompleto.charAt(0)}
+                </span>
+              )}
             </div>
             <h3 className="mt-6 font-display text-xl text-ink">{profesional.nombreCompleto}</h3>
             {profesional.biografia && (

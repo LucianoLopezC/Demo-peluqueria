@@ -1,4 +1,5 @@
 import SeccionMarmol from '../comunes/SeccionMarmol';
+import fotoInterior from '../../assets/estudio-interior.jpg';
 
 const ESTADISTICAS = [
   { valor: '100%', etiqueta: 'Personalizado' },
@@ -10,10 +11,12 @@ function QuienesSomos() {
   return (
     <SeccionMarmol id="nosotros" fondo="blanco">
       <div className="grid items-center gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <div className="arco bg-marble-200 flex h-[360px] items-center justify-center overflow-hidden border border-ink/10 md:h-[440px]">
-          <span className="font-display text-sm tracking-[0.3em] text-marble-500 uppercase">
-            Interior del estudio
-          </span>
+        <div className="arco relative h-[360px] overflow-hidden border border-ink/10 md:h-[440px]">
+          <img
+            src={fotoInterior}
+            alt="Interior del estudio"
+            className="h-full w-full object-cover"
+          />
         </div>
 
         <div>
