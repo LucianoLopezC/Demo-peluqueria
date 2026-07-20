@@ -97,7 +97,9 @@ function FormularioReserva() {
         })
         .catch(() => {
           if (cancelado) return;
-          setDias((prev) => prev.map((dia, i) => (i === indice ? { ...dia, estado: 'error' } : dia)));
+          setDias((prev) =>
+            prev.map((dia, i) => (i === indice ? { ...dia, estado: 'error' } : dia)),
+          );
         });
     });
 
