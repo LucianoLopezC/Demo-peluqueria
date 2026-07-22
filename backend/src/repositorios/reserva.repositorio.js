@@ -40,6 +40,10 @@ function reprogramar(id, { horaInicio, horaFin }) {
   return prisma.reserva.update({ where: { id }, data: { horaInicio, horaFin } });
 }
 
+function eliminarTodas() {
+  return prisma.reserva.deleteMany({});
+}
+
 module.exports = {
   buscarPorProfesionalYDia,
   crear,
@@ -47,4 +51,5 @@ module.exports = {
   buscarProximasPorProfesional,
   actualizarEstado,
   reprogramar,
+  eliminarTodas,
 };

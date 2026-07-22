@@ -44,6 +44,12 @@ function PaginaTablero() {
         </nav>
       </header>
 
+      {usuario?.esDemo && (
+        <div className="border-b border-marble-200 bg-ink px-6 py-2 text-center font-sans text-xs tracking-greek text-marble-50 uppercase">
+          Modo demo · los datos se reinician cada 24 horas
+        </div>
+      )}
+
       <main className="mx-auto max-w-5xl px-6 py-12">
         <Outlet />
       </main>

@@ -11,6 +11,10 @@ const esquemaEntorno = z.object({
   URL_REST_UPSTASH_REDIS: z.string().optional(),
   TOKEN_REST_UPSTASH_REDIS: z.string().optional(),
   URI_MONGODB: z.string().optional(),
+  // Nombre exigido por Vercel Cron Jobs: si la variable se llama exactamente
+  // así, Vercel la envía sola como "Authorization: Bearer <valor>" en cada
+  // invocación programada, así que no se traduce (igual que NODE_ENV/VITE_).
+  CRON_SECRET: z.string().optional(),
 });
 
 const analizado = esquemaEntorno.safeParse(process.env);

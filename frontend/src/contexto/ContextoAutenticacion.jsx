@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import {
   iniciarSesion as solicitarInicioSesion,
+  entrarModoDemo as solicitarEntradaDemo,
   cerrarSesion as solicitarCierreSesion,
   renovarSesion,
 } from '../api/autenticacion.api';
@@ -35,6 +36,13 @@ export function ProveedorAutenticacion({ children }) {
     setEstado('autenticado');
   }, []);
 
+  const entrarModoDemo = useCallback(async () => {
+    const { tokenAcceso, usuario: usuarioIngresado } = await solicitarEntradaDemo();
+    establecerTokenAcceso(tokenAcceso);
+    setUsuario(usuarioIngresado);
+    setEstado('autenticado');
+  }, []);
+
   const cerrarSesion = useCallback(async () => {
     await solicitarCierreSesion().catch(() => {});
     establecerTokenAcceso(null);
@@ -43,7 +51,9 @@ export function ProveedorAutenticacion({ children }) {
   }, []);
 
   return (
-    <ContextoAutenticacion.Provider value={{ usuario, estado, iniciarSesion, cerrarSesion }}>
+    <ContextoAutenticacion.Provider
+      value={{ usuario, estado, iniciarSesion, entrarModoDemo, cerrarSesion }}
+    >
       {children}
     </ContextoAutenticacion.Provider>
   );

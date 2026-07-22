@@ -8,4 +8,8 @@ function crear({ nombreCompleto, telefono, correo }) {
   return prisma.cliente.create({ data: { nombreCompleto, telefono, correo } });
 }
 
-module.exports = { buscarPorTelefono, crear };
+function eliminarTodos() {
+  return prisma.cliente.deleteMany({});
+}
+
+module.exports = { buscarPorTelefono, crear, eliminarTodos };

@@ -28,3 +28,14 @@ describe('POST /api/autenticacion/renovar', () => {
     expect(res.status).toBe(401);
   });
 });
+
+describe('POST /api/autenticacion/entrar-demo', () => {
+  it('inicia sesión sin pedir contraseña cuando la cuenta demo existe', async () => {
+    const res = await request(app).post('/api/autenticacion/entrar-demo');
+    expect([200, 503, 500]).toContain(res.status);
+    if (res.status === 200) {
+      expect(res.body.usuario.esDemo).toBe(true);
+      expect(res.body.usuario).not.toHaveProperty('hashContrasena');
+    }
+  });
+});

@@ -21,4 +21,13 @@ function guardarDia(profesionalId, diaSemana, datos) {
   });
 }
 
-module.exports = { buscarPorProfesionalYDia, buscarTodosPorProfesional, guardarDia };
+function eliminarTodos() {
+  return prisma.horarioLaboral.deleteMany({});
+}
+
+module.exports = {
+  buscarPorProfesionalYDia,
+  buscarTodosPorProfesional,
+  guardarDia,
+  eliminarTodos,
+};

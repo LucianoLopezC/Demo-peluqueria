@@ -12,6 +12,7 @@ router.post(
   validar(esquemaInicioSesion),
   autenticacionControlador.iniciarSesion,
 );
+router.post('/entrar-demo', limitadorReservas, autenticacionControlador.iniciarSesionDemo);
 router.post('/renovar', limitadorReservas, autenticacionControlador.renovar);
 router.post('/cerrar-sesion', autenticacionControlador.cerrarSesion);
 

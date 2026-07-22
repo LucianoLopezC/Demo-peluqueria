@@ -14,4 +14,8 @@ function revocar(id) {
   return prisma.tokenRefresco.update({ where: { id }, data: { revocado: true } });
 }
 
-module.exports = { crear, buscarValidoPorHash, revocar };
+function eliminarTodos() {
+  return prisma.tokenRefresco.deleteMany({});
+}
+
+module.exports = { crear, buscarValidoPorHash, revocar, eliminarTodos };

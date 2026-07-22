@@ -16,4 +16,13 @@ function buscarProfesionalesActivos() {
   });
 }
 
-module.exports = { buscarPorCorreo, buscarPorId, buscarProfesionalesActivos };
+function buscarStaffActivo() {
+  return prisma.usuario.findMany({ where: { activo: true }, select: { id: true } });
+}
+
+module.exports = {
+  buscarPorCorreo,
+  buscarPorId,
+  buscarProfesionalesActivos,
+  buscarStaffActivo,
+};

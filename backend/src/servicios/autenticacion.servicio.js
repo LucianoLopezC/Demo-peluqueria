@@ -11,9 +11,13 @@ const {
 const registroActividadServicio = require('./registroActividad.servicio');
 const ErrorApi = require('../utilidades/ErrorApi');
 
+// Cuenta fija que la semilla siempre crea (ver prisma/semilla.js) y que usa el
+// botón "Entrar en modo demo" del login, sin pedir contraseña al visitante.
+const CORREO_DEMO = 'profesional@peluqueria1.com';
+
 function limpiarUsuario(usuario) {
   const { hashContrasena: _hashContrasena, ...usuarioSeguro } = usuario;
-  return usuarioSeguro;
+  return { ...usuarioSeguro, esDemo: usuario.correo === CORREO_DEMO };
 }
 
 async function emitirParTokens(usuario) {
@@ -55,6 +59,27 @@ async function iniciarSesion(correo, contrasena) {
   return { ...tokens, usuario: limpiarUsuario(usuario) };
 }
 
+async function iniciarSesionDemo() {
+  const usuario = await usuarioRepositorio.buscarPorCorreo(CORREO_DEMO);
+
+  if (!usuario || !usuario.activo) {
+    throw new ErrorApi(503, 'El modo demo no está disponible');
+  }
+
+  const tokens = await emitirParTokens(usuario);
+
+  registroActividadServicio
+    .registrarActividad({
+      actorId: usuario.id,
+      rolActor: usuario.rol,
+      accion: 'INICIO_SESION_DEMO',
+      objetivoId: usuario.id,
+    })
+    .catch(() => {});
+
+  return { ...tokens, usuario: limpiarUsuario(usuario) };
+}
+
 async function renovar(tokenRefrescoCrudo) {
   if (!tokenRefrescoCrudo) {
     throw new ErrorApi(401, 'Falta el token de refresco');
@@ -85,4 +110,4 @@ async function renovar(tokenRefrescoCrudo) {
   return { ...tokens, usuario: limpiarUsuario(usuario) };
 }
 
-module.exports = { iniciarSesion, renovar };
+module.exports = { iniciarSesion, iniciarSesionDemo, renovar };

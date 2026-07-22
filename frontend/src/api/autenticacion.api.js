@@ -5,6 +5,11 @@ export async function iniciarSesion(correo, contrasena) {
   return data;
 }
 
+export async function entrarModoDemo() {
+  const { data } = await clienteAxios.post('/autenticacion/entrar-demo');
+  return data;
+}
+
 export async function renovarSesion() {
   const { data } = await clienteAxios.post('/autenticacion/renovar');
   return data;

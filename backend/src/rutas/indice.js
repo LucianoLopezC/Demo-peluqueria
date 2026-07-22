@@ -5,6 +5,7 @@ const rutasAutenticacion = require('./autenticacion.rutas');
 const rutasReservas = require('./reservas.rutas');
 const rutasProfesionales = require('./profesionales.rutas');
 const rutasPanel = require('./panel.rutas');
+const rutasDemo = require('./demo.rutas');
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/autenticacion', rutasAutenticacion);
 router.use('/reservas', rutasReservas);
 router.use('/profesionales', rutasProfesionales);
 router.use('/panel', rutasPanel);
+router.use('/demo', rutasDemo);
 
 module.exports = router;

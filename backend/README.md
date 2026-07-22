@@ -57,3 +57,17 @@ real (Supabase o la que definas).
 | profesional@peluqueria1.com | changeme123 | PROFESIONAL |
 | camila@peluqueria1.com      | changeme123 | PROFESIONAL |
 | diego@peluqueria1.com       | changeme123 | PROFESIONAL |
+
+## Modo demo
+
+El botón "Entrar en modo demo" del login (`/panel/iniciar-sesion`) inicia sesión sin contraseña
+como `profesional@peluqueria1.com`. Es una cuenta compartida por todos los visitantes: cualquier
+reserva, cancelación u horario que editen queda visible para el resto hasta el próximo reinicio.
+
+Cada 24 horas, Vercel Cron llama a `GET /api/demo/reiniciar`, que borra reservas, clientes y
+tokens de refresco, restaura los horarios laborales de todo el staff a 09:00–18:00 (con descanso
+13:00–14:00) y limpia los logs de actividad/notificaciones en Mongo. El endpoint solo acepta la
+llamada si el header `Authorization` trae `Bearer <CRON_SECRET>`; **`CRON_SECRET` debe llamarse
+exactamente así** porque es el nombre que Vercel exige para inyectar ese header automáticamente
+en cada invocación programada (configurar el valor en las variables de entorno del proyecto en
+Vercel, no solo en `.env` local). El cron está definido en `../vercel.json`.

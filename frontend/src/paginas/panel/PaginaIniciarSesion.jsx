@@ -4,7 +4,7 @@ import { useAutenticacion } from '../../contexto/ContextoAutenticacion';
 import Boton from '../../componentes/comunes/Boton';
 
 function PaginaIniciarSesion() {
-  const { iniciarSesion } = useAutenticacion();
+  const { iniciarSesion, entrarModoDemo } = useAutenticacion();
   const navigate = useNavigate();
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
@@ -22,6 +22,19 @@ function PaginaIniciarSesion() {
     } catch (_err) {
       setEstado('inactivo');
       setError('Credenciales inválidas');
+    }
+  };
+
+  const manejarEntradaDemo = async () => {
+    setEstado('cargando');
+    setError('');
+
+    try {
+      await entrarModoDemo();
+      navigate('/panel');
+    } catch (_err) {
+      setEstado('inactivo');
+      setError('El modo demo no está disponible en este momento');
     }
   };
 
@@ -60,6 +73,25 @@ function PaginaIniciarSesion() {
         <Boton type="submit" className="mt-8 w-full" disabled={estado === 'cargando'}>
           {estado === 'cargando' ? 'Ingresando...' : 'Ingresar'}
         </Boton>
+
+        <div className="mt-6 flex items-center gap-3 text-marble-400">
+          <div className="h-px flex-1 bg-marble-200" />
+          <span className="font-sans text-xs uppercase">o</span>
+          <div className="h-px flex-1 bg-marble-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={manejarEntradaDemo}
+          disabled={estado === 'cargando'}
+          className="mt-6 w-full border border-marble-300 py-3 font-sans text-sm text-marble-700 hover:border-ink hover:text-ink"
+        >
+          Entrar en modo demo
+        </button>
+        <p className="mt-3 text-center font-sans text-xs text-marble-500">
+          Explorá el panel sin crear una cuenta. Los datos son compartidos y se reinician cada 24
+          horas.
+        </p>
       </form>
     </div>
   );

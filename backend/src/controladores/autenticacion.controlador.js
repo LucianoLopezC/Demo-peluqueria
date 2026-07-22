@@ -21,6 +21,13 @@ const iniciarSesion = manejadorAsincrono(async (req, res) => {
   res.json({ tokenAcceso, usuario });
 });
 
+const iniciarSesionDemo = manejadorAsincrono(async (req, res) => {
+  const { tokenAcceso, tokenRefresco, usuario } = await autenticacionServicio.iniciarSesionDemo();
+
+  res.cookie(NOMBRE_COOKIE_REFRESCO, tokenRefresco, OPCIONES_COOKIE_REFRESCO);
+  res.json({ tokenAcceso, usuario });
+});
+
 const renovar = manejadorAsincrono(async (req, res) => {
   const tokenRefrescoCrudo = req.cookies[NOMBRE_COOKIE_REFRESCO];
   const { tokenAcceso, tokenRefresco, usuario } =
@@ -35,4 +42,4 @@ const cerrarSesion = manejadorAsincrono(async (req, res) => {
   res.status(204).send();
 });
 
-module.exports = { iniciarSesion, renovar, cerrarSesion };
+module.exports = { iniciarSesion, iniciarSesionDemo, renovar, cerrarSesion };
